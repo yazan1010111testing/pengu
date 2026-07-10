@@ -28,13 +28,13 @@ local UserInputService = game:GetService("UserInputService")
 -- Configuration
 KeySystem.Config = {
     -- ✅ CONFIGURED: Your work.ink link
-    -- Full link: https://work.ink/2JiA/d653afbe-06a3-4fc9-ba5f-674b59ebcbbd
-    -- Users will visit this link to get keys
+    -- Full link with token parameter
     
     LinkId = "2JiA", -- Your work.ink Link ID
+    FullLink = "https://work.ink/2JiA/d653afbe-06a3-4fc9-ba5f-674b59ebcbbd", -- Your complete link
     
     -- Generated automatically (don't change these)
-    KeyLink = "", -- Will be set to https://work.ink/{LinkId}
+    KeyLink = "", -- Will be set to your full link
     ValidateEndpoint = "https://work.ink/_api/v2/token/isValid/", -- work.ink v2 API
     
     -- Settings (you can customize these)
@@ -47,8 +47,8 @@ KeySystem.Config = {
     CooldownTime = 30, -- Cooldown in seconds after max attempts
 }
 
--- Auto-generate key link
-KeySystem.Config.KeyLink = "https://work.ink/" .. KeySystem.Config.LinkId
+-- Auto-generate key link (use the full link with token parameter)
+KeySystem.Config.KeyLink = KeySystem.Config.FullLink
 
 -- Variables
 local LocalPlayer = Players.LocalPlayer
