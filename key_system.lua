@@ -86,6 +86,9 @@ end
 
 -- API Validation
 local function ValidateKey(key)
+    print("[Key System DEBUG] Starting validation...")
+    print("[Key System DEBUG] Input key:", key)
+    
     -- Cooldown check
     if tick() - LastAttemptTime < KeySystem.Config.CooldownTime and FailedAttempts >= KeySystem.Config.MaxAttempts then
         local remainingTime = math.ceil(KeySystem.Config.CooldownTime - (tick() - LastAttemptTime))
@@ -99,6 +102,7 @@ local function ValidateKey(key)
     
     -- Clean the key (remove spaces, dashes, etc.)
     key = key:gsub("%s+", ""):gsub("-", "")
+    print("[Key System DEBUG] Cleaned key:", key)
     
     -- Build API URL
     local apiUrl = KeySystem.Config.ValidateEndpoint .. key
@@ -113,16 +117,21 @@ local function ValidateKey(key)
         apiUrl = apiUrl .. "?" .. table.concat(params, "&")
     end
     
+    print("[Key System DEBUG] API URL:", apiUrl)
+    
     -- Make API request
     local success, response = pcall(function()
         return game:HttpGet(apiUrl)
     end)
     
     if not success then
+        print("[Key System DEBUG] HTTP Request failed:", response)
         LastAttemptTime = tick()
         FailedAttempts = FailedAttempts + 1
         return false, "Connection error. Check your internet."
     end
+    
+    print("[Key System DEBUG] API Response:", response)
     
     -- Parse JSON response
     local decoded
@@ -131,9 +140,15 @@ local function ValidateKey(key)
     end)
     
     if not success then
+        print("[Key System DEBUG] JSON Parse failed:", decoded)
         LastAttemptTime = tick()
         FailedAttempts = FailedAttempts + 1
         return false, "Invalid response from server"
+    end
+    
+    print("[Key System DEBUG] Decoded response:")
+    for k, v in pairs(decoded) do
+        print("  ", k, "=", v)
     end
     
     -- Check if key is valid
@@ -166,6 +181,7 @@ local function ValidateKey(key)
         return true, "Key validated successfully!"
     else
         -- Invalid key
+        print("[Key System DEBUG] Key validation failed - valid =", decoded.valid)
         LastAttemptTime = tick()
         FailedAttempts = FailedAttempts + 1
         return false, "Invalid key. Please get a new one."
