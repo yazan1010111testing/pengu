@@ -20,7 +20,7 @@ print("⏳ Loading key system...")
 -- ============================================================================
 
 -- ⚠️ IMPORTANT: Upload key_system.lua to your GitHub and replace the URL below!
-local KeySystem = loadstring(game:HttpGet("https://raw.githubusercontent.com/yazan1010111testing/pengu/refs/heads/main/key_system.lua"))()
+local KeySystem = loadstring(game:HttpGet("https://raw.githubusercontent.com/yazan1010111testing/pengu/refs/heads/main/key_system.lua?t=" .. tick()))()
 
 -- ============================================================================
 -- CONFIGURE KEY SYSTEM
@@ -40,19 +40,26 @@ print("🔗 Key Link: " .. KeySystem.Config.KeyLink)
 -- INITIALIZE KEY SYSTEM
 -- ============================================================================
 
-KeySystem:Initialize(function()
-    print("✅ Key validated! Loading main script...")
-    print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
-    
-    -- ============================================================================
-    -- LOAD MAIN SCRIPT AFTER KEY VALIDATION
-    -- ============================================================================
-    
-    loadstring(game:HttpGet("https://raw.githubusercontent.com/yazan1010111testing/pengu/refs/heads/main/obfuscated_script-1783699957873.lua"))()
-    
-    print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
-    print("🎉 Script fully loaded! Enjoy!")
+local success, err = pcall(function()
+    KeySystem:Initialize(function()
+        print("✅ Key validated! Loading main script...")
+        print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
+        
+        -- ============================================================================
+        -- LOAD MAIN SCRIPT AFTER KEY VALIDATION
+        -- ============================================================================
+        
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/yazan1010111testing/pengu/refs/heads/main/obfuscated_script-1783699957873.lua"))()
+        
+        print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
+        print("🎉 Script fully loaded! Enjoy!")
+    end)
 end)
+
+if not success then
+    warn("❌ ERROR:", err)
+    warn("Key system failed to initialize!")
+end
 
 print("⏳ Waiting for key validation...")
 print("💡 Click 'Get Key' button to get your key!")
