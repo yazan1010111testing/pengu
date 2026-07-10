@@ -453,7 +453,9 @@ local function CreateUI()
     
     -- Validate Button Logic
     ValidateButton.MouseButton1Click:Connect(function()
+        print("[Key System] Button clicked!")
         local key = KeyInput.Text
+        print("[Key System] Got key from input:", key)
         
         StatusLabel.Text = "Validating..."
         StatusLabel.TextColor3 = Color3.fromRGB(100, 180, 255)
@@ -461,7 +463,9 @@ local function CreateUI()
         
         task.wait(0.5)
         
+        print("[Key System] About to validate...")
         local success, message = ValidateKey(key)
+        print("[Key System] Validation result:", success, message)
         
         if success then
             StatusLabel.Text = message
