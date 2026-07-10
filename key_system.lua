@@ -353,11 +353,33 @@ local function CreateUI()
     ValidateCorner.CornerRadius = UDim.new(0, 8)
     ValidateCorner.Parent = ValidateButton
     
+    -- Discord Button
+    local DiscordButton = Instance.new("TextButton")
+    DiscordButton.Name = "DiscordButton"
+    DiscordButton.Size = UDim2.new(1, -40, 0, 35)
+    DiscordButton.Position = UDim2.new(0, 20, 1, -45)
+    DiscordButton.BackgroundColor3 = Color3.fromRGB(88, 101, 242) -- Discord blurple
+    DiscordButton.BorderSizePixel = 0
+    DiscordButton.Text = "💬 Join Discord"
+    DiscordButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+    DiscordButton.TextSize = 14
+    DiscordButton.Font = Enum.Font.GothamBold
+    DiscordButton.AutoButtonColor = false
+    DiscordButton.Parent = MainFrame
+    
+    local DiscordCorner = Instance.new("UICorner")
+    DiscordCorner.CornerRadius = UDim.new(0, 8)
+    DiscordCorner.Parent = DiscordButton
+    
+    -- Adjust MainFrame height to fit Discord button
+    MainFrame.Size = UDim2.new(0, 450, 0, 360)
+    MainFrame.Position = UDim2.new(0.5, -225, 0.5, -180)
+    
     -- Status Label
     local StatusLabel = Instance.new("TextLabel")
     StatusLabel.Name = "StatusLabel"
     StatusLabel.Size = UDim2.new(1, -40, 0, 20)
-    StatusLabel.Position = UDim2.new(0, 20, 1, -25)
+    StatusLabel.Position = UDim2.new(0, 20, 0, 290)
     StatusLabel.BackgroundTransparency = 1
     StatusLabel.Text = ""
     StatusLabel.TextColor3 = Color3.fromRGB(255, 100, 100)
@@ -414,6 +436,23 @@ local function CreateUI()
     
     ButtonHover(GetKeyButton, Color3.fromRGB(70, 130, 255), Color3.fromRGB(60, 120, 255))
     ButtonHover(ValidateButton, Color3.fromRGB(60, 210, 110), Color3.fromRGB(50, 200, 100))
+    ButtonHover(DiscordButton, Color3.fromRGB(98, 111, 252), Color3.fromRGB(88, 101, 242))
+    
+    -- Discord Button Logic
+    DiscordButton.MouseButton1Click:Connect(function()
+        pcall(function()
+            if setclipboard then
+                setclipboard("https://discord.gg/t9xNXQzSvs")
+                StatusLabel.Text = "Discord invite copied to clipboard!"
+                StatusLabel.TextColor3 = Color3.fromRGB(88, 101, 242)
+            end
+        end)
+        
+        task.wait(3)
+        if StatusLabel.Text == "Discord invite copied to clipboard!" then
+            StatusLabel.Text = ""
+        end
+    end)
     
     -- Get Key Button Logic
     GetKeyButton.MouseButton1Click:Connect(function()
