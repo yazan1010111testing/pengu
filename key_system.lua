@@ -100,8 +100,8 @@ local function ValidateKey(key)
         return false, "Please enter a valid key"
     end
     
-    -- Clean the key (remove spaces, dashes, etc.)
-    key = key:gsub("%s+", ""):gsub("-", "")
+    -- Clean the key (remove only spaces, keep dashes for UUID format!)
+    key = key:gsub("%s+", "")
     print("[Key System DEBUG] Cleaned key:", key)
     
     -- Build API URL
